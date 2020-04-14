@@ -1,4 +1,6 @@
-package sample;
+package Utilities;
+
+import sample.Location;
 
 import java.io.*;
 import java.util.ArrayList;

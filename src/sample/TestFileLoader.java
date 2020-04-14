@@ -1,7 +1,8 @@
 package sample;
 
+import Utilities.FileWorker;
+
 import java.io.*;
-import java.util.ArrayList;
 
 public class TestFileLoader {
     public static void main(String[] args) throws IOException {

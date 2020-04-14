@@ -4,33 +4,26 @@
 // rectangle on it
 package sample;
 
+import Screen.AggregationMapDrawer;
+import Screen.ApproximateMapDrawer;
+import Screen.MinMaxMapDrawer;
+import Utilities.FileWorker;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Circle;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.canvas.*;
 import javafx.scene.paint.Color;
-import javafx.scene.Group;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -46,7 +39,9 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         LocationManagement locManScreen = new LocationManagement();
-        MapDrawer md = new AggregationMapDrawer(MAP_HEIGHT, MAP_WIDTH, RATIO, user_x, user_y, locs);
+        AggregationMapDrawer md = new AggregationMapDrawer(MAP_HEIGHT, MAP_WIDTH, RATIO, user_x, user_y, locs);
+        ApproximateMapDrawer amd = new ApproximateMapDrawer(MAP_HEIGHT, MAP_WIDTH, RATIO, user_x, user_y, locs);
+        MinMaxMapDrawer mmmd = new MinMaxMapDrawer(MAP_HEIGHT, MAP_WIDTH, RATIO, user_x, user_y, locs);
         VBox mainPane = new VBox();
         mainPane.setPadding(new Insets(10));
         mainPane.setAlignment(Pos.TOP_CENTER);
@@ -129,7 +124,27 @@ public class Main extends Application {
         });
         Button mode2 = new Button("Mode 2");
         Button mode3 = new Button("Mode 3");
+        mode3.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try {
+                    amd.getMapStage().show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         Button mode4 = new Button("Mode 4");
+        mode4.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try {
+                    mmmd.getMapStage().show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         Button manageBtn = new Button("จัดการร้านค้า");
         manageBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override

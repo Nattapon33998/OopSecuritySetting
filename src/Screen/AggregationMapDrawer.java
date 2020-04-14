@@ -1,17 +1,12 @@
-package sample;
+package Screen;
 
 import javafx.scene.Parent;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.text.Text;
+import sample.Location;
+import sample.MapDrawer;
+import sample.Aggregation;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class AggregationMapDrawer extends MapDrawer {

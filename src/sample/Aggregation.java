@@ -1,7 +1,5 @@
 package sample;
 
-import sample.Location;
-
 import java.util.ArrayList;
 
 public class Aggregation {
