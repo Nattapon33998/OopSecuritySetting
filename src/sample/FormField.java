@@ -1,9 +1,11 @@
 package sample;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -35,11 +37,16 @@ public class FormField {
     }
 
     public Node getNode() {
-        HBox formContainer = new HBox();
+        GridPane formContainer = new GridPane();
+//        formContainer.setAlignment(Pos.CENTER);
         formContainer.setPadding(new Insets(10));
+        formContainer.setVgap(10);
+        formContainer.setHgap(10);
         Text label = new Text();
-        label.setFill(Color.WHITE);
+//        label.setFill(Color.WHITE);
         label.setText(this.label);
+        GridPane.setConstraints(label, 0, 0);
+        GridPane.setConstraints(this.txtField, 1, 0);
         this.txtField.textProperty().addListener((observable, oldValue, newValue) -> {
             if(this.onlyNumber && newValue.length() > 0) {
                 boolean digit = Character.isDigit(newValue.charAt(newValue.length() - 1));

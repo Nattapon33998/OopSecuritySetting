@@ -16,7 +16,9 @@ public class FileWorker {
 
                 dataOutputStream.close();
             }
-        } catch (IOException e) {
+            dataInputStream.close();
+        } 
+        catch (IOException e) {
             DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream("binary.dat"));
             dataOutputStream.writeUTF(name);
             dataOutputStream.writeDouble(x);
@@ -36,7 +38,24 @@ public class FileWorker {
 
             returnArrayList.add(new Location(x, y, name));
         }
+        dataInputStream.close();
 
         return returnArrayList;
+    }
+   
+    public static void deleteLocationByIndex(int delete_index) throws IOException{
+        ArrayList<Location> firstReadLocation = readFileToLocations();
+        //System.out.println(firstReadLocation);
+        firstReadLocation.remove(delete_index);
+
+        DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream("binary.dat", false));
+        for (int i=0;i<firstReadLocation.size();i++) {
+            dataOutputStream.writeUTF(firstReadLocation.get(i).getName());
+            dataOutputStream.writeDouble(firstReadLocation.get(i).getX());
+            dataOutputStream.writeDouble(firstReadLocation.get(i).getY());
+        }
+        dataOutputStream.close();
+        //ArrayList<Location> lastReadLocation = readFileToLocations();
+        //System.out.println("\n\n" + lastReadLocation);
     }
 }

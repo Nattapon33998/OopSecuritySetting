@@ -5,6 +5,7 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
@@ -16,6 +17,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
@@ -43,30 +45,121 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        MapDrawer md = new MapDrawer(MAP_HEIGHT, MAP_WIDTH, RATIO, user_x, user_y, locs);
-        VBox optionBox = new VBox();
-        optionBox.setBackground(new Background(new BackgroundFill(Color.rgb(52, 183, 235), CornerRadii.EMPTY, Insets.EMPTY)));
-        Button showMapBtn = new Button("แสดงภาพแผนที่");
-        FormField userXForm = new FormField("พิกัดแกนนอน", 10, true);
-        userXForm.setFieldText("" + (int) user_x);
-        FormField userYForm = new FormField("พิกัดแกนตั้ง", 10, true);
-        userYForm.setFieldText("" + (int) user_y);
-        showMapBtn.setOnAction(new EventHandler<ActionEvent>() {
+        LocationManagement locManScreen = new LocationManagement();
+        MapDrawer md = new AggregationMapDrawer(MAP_HEIGHT, MAP_WIDTH, RATIO, user_x, user_y, locs);
+        VBox mainPane = new VBox();
+        mainPane.setPadding(new Insets(10));
+        mainPane.setAlignment(Pos.TOP_CENTER);
+        mainPane.setSpacing(10);
+
+        ImageView logo = new ImageView(new Image(new FileInputStream("res/img/kmitl_logo.png")));
+        logo.setFitHeight(150);
+        logo.setFitWidth(300);
+
+        // Position Group
+        HBox positionGroup = new HBox();
+        positionGroup.setAlignment(Pos.CENTER);
+        Label currentXY = new Label("พิกัดปัจจุบัน (" + (int) user_x + ", " + (int) user_y + ")");
+        Label editPosition = new Label("แก้ไข");
+        editPosition.setTextFill(Color.BLUE);
+        editPosition.setPadding(new Insets(3));
+        // Changing position screen
+        // TODO: Add handling Error
+        editPosition.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                Stage editPositionStage = new Stage();
+                VBox editPositionBox = new VBox();
+                editPositionBox.setPadding(new Insets(5));
+                FormField xAxis = new FormField("พิกัดแนวขวาง", 10, true);
+                FormField yAxis = new FormField("พิกัดแนวตั้ง", 10, true);
+                HBox btnContainer = new HBox();
+                Button okBtn = new Button("ตกลง");
+                okBtn.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        user_x =  Double.parseDouble(xAxis.getEnteredText());
+                        user_y =  Double.parseDouble(yAxis.getEnteredText());
+                        currentXY.setText("พิกัดปัจจุบัน (" + (int) user_x + ", " + (int) user_y + ")");
+                        md.setUser_x(user_x);
+                        md.setUser_y(user_y);
+                        editPositionStage.close();
+                    }
+                });
+                Button cancelBtn = new Button("ยกเลิก");
+                cancelBtn.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        editPositionStage.close();
+                    }
+                });
+                btnContainer.getChildren().addAll(okBtn, cancelBtn);
+                btnContainer.setAlignment(Pos.CENTER);
+                editPositionBox.getChildren().addAll(xAxis.getNode(), yAxis.getNode(), btnContainer);
+                editPositionStage.setScene(new Scene(editPositionBox));
+                editPositionStage.show();
+            }
+        });
+        editPosition.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                editPosition.setUnderline(true);
+            }
+        });
+        editPosition.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                editPosition.setUnderline(false);
+            }
+        });
+        positionGroup.getChildren().addAll(currentXY, editPosition);
+
+
+        GridPane btnGroup = new GridPane();
+        Button mode1 = new Button("Mode 1");
+        mode1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 try {
                     md.getMapStage().show();
-                } catch (FileNotFoundException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
+        Button mode2 = new Button("Mode 2");
+        Button mode3 = new Button("Mode 3");
+        Button mode4 = new Button("Mode 4");
+        Button manageBtn = new Button("จัดการร้านค้า");
+        manageBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                locManScreen.getStage().show();
+            }
+        });
+        Button exitBtn = new Button("ออก");
+        exitBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Platform.exit();
+                System.exit(0);
+            }
+        });
+        btnGroup.setHgap(10);
+        btnGroup.setVgap(10);
+        btnGroup.setAlignment(Pos.CENTER);
 
-        optionBox.setAlignment(Pos.CENTER);
-        optionBox.getChildren().addAll(userXForm.getNode(), userYForm.getNode(), showMapBtn);
+        btnGroup.add(mode1, 0, 0);
+        btnGroup.add(mode2, 1, 0);
+        btnGroup.add(mode3, 0,1);
+        btnGroup.add(mode4, 1, 1);
+        btnGroup.add(manageBtn, 0,2);
+        btnGroup.add(exitBtn, 1, 2);
 
-        stage.setTitle("โปรเจค");
-        stage.setScene(new Scene(optionBox, 200, 400));
+        mainPane.getChildren().addAll(logo, positionGroup, btnGroup);
+
+        Scene sc = new Scene(mainPane);
+        stage.setScene(sc);
         stage.show();
     }
 

@@ -22,29 +22,27 @@ import java.util.ArrayList;
 
 public class MapDrawer {
     private double MAP_HEIGHT, MAP_WIDTH, RATIO, user_x, user_y;
-    private ArrayList<Location> locs;
+    private ArrayList<Location> locs = FileWorker.readFileToLocations();
 
-    public MapDrawer(double MAP_HEIGHT, double MAP_WIDTH, double RATIO, double user_x, double user_y, ArrayList<Location> locs) {
+    public MapDrawer(double MAP_HEIGHT, double MAP_WIDTH, double RATIO, double user_x, double user_y, ArrayList<Location> locs) throws IOException {
         this.MAP_HEIGHT = MAP_HEIGHT;
         this.MAP_WIDTH = MAP_WIDTH;
         this.RATIO = RATIO;
         this.user_x = user_x;
         this.user_y = user_y;
-        this.locs = locs;
+//        this.locs = locs;
     }
 
-    public Parent getDrawScene() throws FileNotFoundException {
+    public Parent getDrawScene() throws Exception {
         Pane mapPane = new Pane();
-//        Rectangle2D viewportRect = new Rectangle2D(40, 35, 110, 110);
         ImageView mapImage = new ImageView();
         mapImage.setImage(new Image(new FileInputStream("res/img/Map-1-1.jpg"), MAP_WIDTH, MAP_HEIGHT, true, false));
         mapImage.setScaleX(100/this.RATIO);
         mapImage.setScaleY(100/this.RATIO);
         mapImage.maxHeight(MAP_HEIGHT);
-//        mapImage.maxWidth(MAP_WIDTH);
-        mapImage.setFitHeight(MAP_HEIGHT + 10);
-//        mapImage.setFitWidth(MAP_WIDTH);
-//        mapImage.setViewport(viewportRect);
+        mapImage.maxWidth(MAP_WIDTH);
+        mapImage.setFitHeight(MAP_HEIGHT);
+        mapImage.setFitWidth(MAP_WIDTH);
 
         mapPane.getChildren().add(mapImage);
 
@@ -78,7 +76,7 @@ public class MapDrawer {
         return mapPane;
     }
 
-    public Stage getMapStage() throws FileNotFoundException {
+    public Stage getMapStage() throws Exception {
         BorderPane bp = new BorderPane();
         bp.setCenter(this.getDrawScene());
 
@@ -101,7 +99,7 @@ public class MapDrawer {
                     try {
                         Node mapSc = getDrawScene();
                         bp.setCenter(mapSc);
-                    } catch (FileNotFoundException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
