@@ -1,10 +1,10 @@
 package Screen;
 
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import sample.Location;
-import sample.MapDrawer;
 import sample.Aggregation;
 
 import java.util.ArrayList;

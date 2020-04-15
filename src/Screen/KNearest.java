@@ -5,7 +5,6 @@
  */
 package Screen;
 import sample.Location;
-import sample.MapDrawer;
 
 import java.util.ArrayList;
 /**

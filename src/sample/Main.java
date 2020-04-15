@@ -4,9 +4,7 @@
 // rectangle on it
 package sample;
 
-import Screen.AggregationMapDrawer;
-import Screen.ApproximateMapDrawer;
-import Screen.MinMaxMapDrawer;
+import Screen.*;
 import Utilities.FileWorker;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -23,12 +21,13 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.paint.Color;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main extends Application {
-    private double user_x = 1305.f, user_y = 902.f;
+    private double user_x = 562.5f, user_y = 375.f;
     private double MAP_HEIGHT = 750.f, MAP_WIDTH = 1125.f;
     private double RATIO = 10.0f;
     private ArrayList<Location> locs = FileWorker.readFileToLocations();
@@ -36,12 +35,15 @@ public class Main extends Application {
     public Main() throws IOException {
     }
 
-    @Override
+
+    //@Override
     public void start(Stage stage) throws Exception {
         LocationManagement locManScreen = new LocationManagement();
         AggregationMapDrawer md = new AggregationMapDrawer(MAP_HEIGHT, MAP_WIDTH, RATIO, user_x, user_y, locs);
+//        SelectableMapDrawer md = new SelectableMapDrawer(MAP_HEIGHT, MAP_WIDTH, RATIO, user_x, user_y, locs);
         ApproximateMapDrawer amd = new ApproximateMapDrawer(MAP_HEIGHT, MAP_WIDTH, RATIO, user_x, user_y, locs);
         MinMaxMapDrawer mmmd = new MinMaxMapDrawer(MAP_HEIGHT, MAP_WIDTH, RATIO, user_x, user_y, locs);
+        KNearestMapDrawer knmd = new KNearestMapDrawer(MAP_HEIGHT, MAP_WIDTH, RATIO, user_x, user_y, locs);
         VBox mainPane = new VBox();
         mainPane.setPadding(new Insets(10));
         mainPane.setAlignment(Pos.TOP_CENTER);
@@ -116,6 +118,7 @@ public class Main extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
                 try {
+                    md.setLocs(FileWorker.readFileToLocations());
                     md.getMapStage().show();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -123,6 +126,13 @@ public class Main extends Application {
             }
         });
         Button mode2 = new Button("Mode 2");
+        mode2.setOnAction(e->{
+            try {
+                knmd.getMapStage().show();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
         Button mode3 = new Button("Mode 3");
         mode3.setOnAction(new EventHandler<ActionEvent>() {
             @Override
