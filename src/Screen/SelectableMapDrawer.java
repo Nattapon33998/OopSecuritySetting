@@ -5,7 +5,9 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -14,12 +16,13 @@ import sample.Location;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class SelectableMapDrawer extends MapDrawer {
     private double pickX, pickY;
 
-    public SelectableMapDrawer(double MAP_HEIGHT, double MAP_WIDTH, double RATIO, double user_x, double user_y, ArrayList<Location> locs) throws IOException {
-        super(MAP_HEIGHT, MAP_WIDTH, RATIO, user_x, user_y, locs);
+    public SelectableMapDrawer(double MAP_HEIGHT, double MAP_WIDTH, double RATIO, double user_x, double user_y) throws IOException {
+        super(MAP_HEIGHT, MAP_WIDTH, RATIO, user_x, user_y);
     }
 
     @Override

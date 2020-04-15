@@ -14,8 +14,8 @@ public class MinMaxMapDrawer extends MapDrawer{
     private double minRadius;
     private double maxRadius;
 
-    public MinMaxMapDrawer(double MAP_HEIGHT, double MAP_WIDTH, double RATIO, double user_x, double user_y, ArrayList<Location> locs) throws IOException {
-        super(MAP_HEIGHT, MAP_WIDTH, RATIO, user_x, user_y, locs);
+    public MinMaxMapDrawer(double MAP_HEIGHT, double MAP_WIDTH, double RATIO, double user_x, double user_y) throws IOException {
+        super(MAP_HEIGHT, MAP_WIDTH, RATIO, user_x, user_y);
         minRadius = min();
         maxRadius = max();
     }

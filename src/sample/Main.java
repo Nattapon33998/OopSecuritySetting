@@ -29,7 +29,7 @@ import java.util.ArrayList;
 public class Main extends Application {
     private double user_x = 562.5f, user_y = 375.f;
     private double MAP_HEIGHT = 750.f, MAP_WIDTH = 1125.f;
-    private double RATIO = 10.0f;
+    private double RATIO = 50.0f;
     private ArrayList<Location> locs = FileWorker.readFileToLocations();
 
     public Main() throws IOException {
@@ -39,11 +39,9 @@ public class Main extends Application {
     //@Override
     public void start(Stage stage) throws Exception {
         LocationManagement locManScreen = new LocationManagement();
-        AggregationMapDrawer md = new AggregationMapDrawer(MAP_HEIGHT, MAP_WIDTH, RATIO, user_x, user_y, locs);
 //        SelectableMapDrawer md = new SelectableMapDrawer(MAP_HEIGHT, MAP_WIDTH, RATIO, user_x, user_y, locs);
-        ApproximateMapDrawer amd = new ApproximateMapDrawer(MAP_HEIGHT, MAP_WIDTH, RATIO, user_x, user_y, locs);
-        MinMaxMapDrawer mmmd = new MinMaxMapDrawer(MAP_HEIGHT, MAP_WIDTH, RATIO, user_x, user_y, locs);
-        KNearestMapDrawer knmd = new KNearestMapDrawer(MAP_HEIGHT, MAP_WIDTH, RATIO, user_x, user_y, locs);
+
+
         VBox mainPane = new VBox();
         mainPane.setPadding(new Insets(10));
         mainPane.setAlignment(Pos.TOP_CENTER);
@@ -78,8 +76,6 @@ public class Main extends Application {
                         user_x =  Double.parseDouble(xAxis.getEnteredText());
                         user_y =  Double.parseDouble(yAxis.getEnteredText());
                         currentXY.setText("พิกัดปัจจุบัน (" + (int) user_x + ", " + (int) user_y + ")");
-                        md.setUser_x(user_x);
-                        md.setUser_y(user_y);
                         editPositionStage.close();
                     }
                 });
@@ -118,7 +114,8 @@ public class Main extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
                 try {
-                    md.setLocs(FileWorker.readFileToLocations());
+                    AggregationMapDrawer md = new AggregationMapDrawer(MAP_HEIGHT, MAP_WIDTH, RATIO, user_x, user_y);
+//                    md.setLocs(FileWorker.readFileToLocations());
                     md.getMapStage().show();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -128,6 +125,7 @@ public class Main extends Application {
         Button mode2 = new Button("Mode 2");
         mode2.setOnAction(e->{
             try {
+                KNearestMapDrawer knmd = new KNearestMapDrawer(MAP_HEIGHT, MAP_WIDTH, RATIO, user_x, user_y);
                 knmd.getMapStage().show();
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -138,6 +136,7 @@ public class Main extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
                 try {
+                    ApproximateMapDrawer amd = new ApproximateMapDrawer(MAP_HEIGHT, MAP_WIDTH, RATIO, user_x, user_y);
                     amd.getMapStage().show();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -149,6 +148,7 @@ public class Main extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
                 try {
+                    MinMaxMapDrawer mmmd = new MinMaxMapDrawer(MAP_HEIGHT, MAP_WIDTH, RATIO, user_x, user_y);
                     mmmd.getMapStage().show();
                 } catch (Exception e) {
                     e.printStackTrace();

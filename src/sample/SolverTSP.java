@@ -6,16 +6,16 @@ import java.util.*;
 public class SolverTSP 
 {
     //Data Fileds
-    private static double adjacencyMatrix[][];
-    private static int numberNode;
-    private static boolean visitedNode[];                              // .. visitedNode[] -> keeps track of the already visited nodes
+    private double adjacencyMatrix[][];
+    private int numberNode;
+    private boolean visitedNode[];                              // .. visitedNode[] -> keeps track of the already visited nodes
 
-    private static int finalPath[];                                    // .. finalPath[] -> stores the final path solution
-    private static double finalCost = Double.MAX_VALUE;                // .. Stores the -> final minimum cost of shortest tour
+    private int finalPath[];                                    // .. finalPath[] -> stores the final path solution
+    private double finalCost = Double.MAX_VALUE;                // .. Stores the -> final minimum cost of shortest tour
  
     //Method
     // => Function to copy temporary solution to final solution
-    private static void copyToFinal(int curr_path[]){ 
+    private void copyToFinal(int curr_path[]){
         for(int i=0;i<numberNode;i++){
             finalPath[i] = curr_path[i]; 
         }
@@ -23,7 +23,7 @@ public class SolverTSP
     } 
   
     // => Function to find the minimum edge cost having an end at the vertex i 
-    private static double firstMin(double adjacency_matrix[][], int i){ 
+    private double firstMin(double adjacency_matrix[][], int i){
         double min = Double.MAX_VALUE; 
         for(int k=0;k<numberNode;k++){
             if(adjacency_matrix[i][k]<min && i!=k){
@@ -34,7 +34,7 @@ public class SolverTSP
     } 
   
     // => function to find the second minimum edge cost having an end at the vertex i 
-    private static double secondMin(double adjacency_matrix[][], int i){ 
+    private double secondMin(double adjacency_matrix[][], int i){
         double first = Double.MAX_VALUE, second = Double.MAX_VALUE; 
         for(int k=0;k<numberNode;k++){ 
             if(i == k){
@@ -53,7 +53,7 @@ public class SolverTSP
     } 
   
     
-    private static void TSPRec(double adjacency_matrix[][], double curr_bound, double curr_weight, int level, int curr_path[]){
+    private void TSPRec(double adjacency_matrix[][], double curr_bound, double curr_weight, int level, int curr_path[]){
         // .. curr_bound -> lower bound of the root node 
         // .. curr_weight-> stores the weight of the path so far 
         // .. level-> current level while moving in the search space tree 
@@ -118,7 +118,7 @@ public class SolverTSP
     } 
     
     // => function to set up finalPath[]  
-    private static void TSP(double adjacency_matrix[][]) 
+    private void TSP(double adjacency_matrix[][])
     { 
         int curr_path[] = new int[numberNode + 1]; 
   
@@ -151,7 +151,7 @@ public class SolverTSP
     } 
       
     // => function to drive
-    public static int[] getPathTSP(double adjacency_matrix[][], int number_node){
+    public int[] getPathTSP(double adjacency_matrix[][], int number_node){
 
         // Set up dataFIleds
         adjacencyMatrix = adjacency_matrix;

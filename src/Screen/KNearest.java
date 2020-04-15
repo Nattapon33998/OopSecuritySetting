@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author Asus
  */
 public class KNearest {
-    public static ArrayList<Location> kNearest(int k, ArrayList<Location> locationList, Location start){
+    public static double kNearest(int k, ArrayList<Location> locationList, Location start){
         Location spair;
         ArrayList<Location> outPut = new ArrayList<Location>();
         
@@ -24,15 +24,14 @@ public class KNearest {
                     locationList.set(i+1, spair);
                 }
             }
-            
         }
         
         for (int i = 0; i < k; i++) {
-            System.out.println("Add " + i);
             outPut.add(locationList.get(i));
         }
-        
-        return outPut; 
+        System.out.println(outPut.get(k-1));
+
+        return outPut.get(k-1).distanceWith(start);
     }
     
     public static double approximate(ArrayList<Location> locationList, Location start){

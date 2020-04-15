@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Aggregation {
     
     public static ArrayList<Location> findShortestTravelingRoute(Location start_location, ArrayList<Location> location_list) throws Exception{
-        System.out.println("hey: " + location_list);
         // Check Exception
         if(start_location == null){
             throw new Exception("start_location is null");
@@ -47,7 +46,8 @@ public class Aggregation {
         }
 
         // Solve for tsp with data in adjacency_matrix
-        int result_solver_tsp[] = SolverTSP.getPathTSP(adjacency_matrix, location_list.size()+1);
+        SolverTSP solvertsp = new SolverTSP();
+        int result_solver_tsp[] = solvertsp.getPathTSP(adjacency_matrix, location_list.size()+1);
 
         // Mapping location_list with result_soler_tsp then return new ArrayList<Location> tour_path_tsp
         ArrayList<Location> location_path_tsp = new ArrayList<Location>();
@@ -60,8 +60,6 @@ public class Aggregation {
                 location_path_tsp.add(location_list.get(result_solver_tsp[i]-1));
             }
         }
-
-        System.out.println("out: " + location_path_tsp);
 
         return location_path_tsp;
     }  
