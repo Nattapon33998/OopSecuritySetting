@@ -4,6 +4,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -106,6 +107,8 @@ public class MapDrawer {
                     setUser_y(user_y);
                     mapImage.setScaleX(100/RATIO);
                     mapImage.setScaleY(100/RATIO);
+
+
 //                    mapImage.setX();
 //                    mapImage.set
 //                    System.out.println(mapImage.getX() + " " + mapImage.getY());

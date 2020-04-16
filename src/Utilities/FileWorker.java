@@ -1,6 +1,7 @@
 package Utilities;
 
 import sample.Location;
+import sample.Setting;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -59,5 +60,35 @@ public class FileWorker {
         dataOutputStream.close();
         //ArrayList<Location> lastReadLocation = readFileToLocations();
         //System.out.println("\n\n" + lastReadLocation);
+    }
+
+    public static void writeSettings(boolean isLock, String password) {
+        try {
+            DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream("settings.dat"));
+            dataOutputStream.writeBoolean(isLock);
+            dataOutputStream.writeUTF(password);
+            dataOutputStream.close();
+        }
+        catch (IOException e) {
+        }
+    }
+
+    public static Setting readSettings() throws IOException {
+        DataInputStream dataInputStream = new DataInputStream(new FileInputStream("settings.dat"));
+        boolean isLock = dataInputStream.readBoolean();
+        String password = dataInputStream.readUTF();
+
+        return new Setting(password, isLock);
+    }
+
+    public static void writeSettings(Setting setting) {
+        try {
+            DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream("settings.dat"));
+            dataOutputStream.writeBoolean(setting.isLock());
+            dataOutputStream.writeUTF(setting.getPassword());
+            dataOutputStream.close();
+        }
+        catch (IOException e) {
+        }
     }
 }
