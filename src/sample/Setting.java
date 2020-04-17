@@ -18,4 +18,12 @@ public class Setting implements Serializable {
         this.password = password;
         this.isLock = isLock;
     }
+
+    @Override
+    public String toString() {
+        return "Setting{" +
+                "password='" + password + '\'' +
+                ", isLock=" + isLock +
+                '}';
+    }
 }

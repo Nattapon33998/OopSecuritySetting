@@ -37,11 +37,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Stage finishLogin = new Stage();
-        Label finishLoginLabel = new Label("Finish login");
+        SettingScreen settingScreen = new SettingScreen();
         Label failLoginLabel = new Label("Faild login");
         failLoginLabel.setOpacity(0.0);
-        finishLogin.setScene(new Scene(finishLoginLabel));
         VBox container = new VBox();
         PasswordField passwordField = new PasswordField();
         Button loginBtn = new Button("login");
@@ -49,13 +47,13 @@ public class Main extends Application {
         container.getChildren().addAll(passwordField, loginBtn);
         container.getChildren().add(failLoginLabel);
         loginBtn.setOnAction(e->{
-            System.out.println(passwordField.getText());
-            FileWorker.writeSettings(new Setting(passwordField.getText(), true));
+//            System.out.println(passwordField.getText());
+//            FileWorker.writeSettings(new Setting(passwordField.getText(), true));
             try {
                 Setting setting = FileWorker.readSettings();
                 if(passwordField.getText().compareTo(setting.getPassword()) == 0) {
                     stage.close();
-                    finishLogin.show();
+                    settingScreen.getStage().show();
                 } else {
                     failLoginLabel.setOpacity(1.0);
                 }
